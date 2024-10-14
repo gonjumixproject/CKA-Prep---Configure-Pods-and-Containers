@@ -11,6 +11,7 @@ Kubernetes provides <b>Node Resource Managers</b> to optimize and coordinate CPU
 <b> Lets make the examples on https://kubernetes.io/docs/concepts/policy Page </b>
 
 <details open>
+<summary>LimitRange example </summary>
 <summary>1. Create a LimitRange with a manifest file.  Default CPU limit is 500m, defaultRequest CPU limit is 500m, max CPU limit is 1 and min CPU limit is 100m.</summary>
 <pre>
   apiVersion: v1
