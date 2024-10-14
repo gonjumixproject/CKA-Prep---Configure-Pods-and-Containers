@@ -87,7 +87,7 @@ spec:
       limits:
         cpu: 700m
 </pre>
-
+<pre>
 This configration means that LimitRange constraints for CPU resources on containers within a namespace:
 
 Min: Minimum CPU request of 100m (0.1 CPU).
@@ -100,6 +100,6 @@ And from a pod level this means that  a container in a pod has both a CPU limit 
 
 Requests: The container will be guaranteed 700 millicores of CPU, ensuring it has the resources it needs.
 Limits: The container cannot exceed 700 millicores of CPU. Even if more CPU is available, the container is restricted to this maximum amount.
-
+</pre>
 </details>
 
