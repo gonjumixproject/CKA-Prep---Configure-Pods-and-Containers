@@ -35,6 +35,19 @@ spec:
       cpu: 100m
     type: Container
 </pre>
+<pre>
+ C:\Users\gonca> vi limitrange.yaml
+PS C:\Users\gonca> kubectl apply -f .\limitrange.yaml
+limitrange/cpu-resource-constraint created
+PS C:\Users\gonca> kubectl get limitrange
+NAME                      CREATED AT
+cpu-resource-constraint   2024-10-14T10:31:15Z
+PS C:\Users\gonca> kubectl describe limitrange
+Name:       cpu-resource-constraint
+Namespace:  default
+Type        Resource  Min   Max  Default Request  Default Limit  Max Limit/Request Ratio
+----        --------  ---   ---  ---------------  -------------  -----------------------
+Container   cpu       100m  1    500m             500m           -</pre>
 <summary>2. Create a Pod that declares a CPU resource request of 700m, but not a limit.</summary>
 <pre>apiVersion: v1
 kind: Pod
