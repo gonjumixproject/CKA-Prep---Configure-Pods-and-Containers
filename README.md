@@ -29,8 +29,36 @@ spec:
       cpu: 100m
     type: Container
 </pre>
+<summary>2. Create a Pod that declares a CPU resource request of 700m, but not a limit.</summary>
+<pre>apiVersion: v1
+kind: Pod
+metadata:
+  name: example-conflict-with-limitrange-cpu
+spec:
+  containers:
+  - name: demo
+    image: registry.k8s.io/pause:2.0
+    resources:
+      requests:
+        cpu: 700m
+</pre>
+<summary>3. See if that Pod is scheduled, and see why ?</summary>
+<pre>Pod "example-conflict-with-limitrange-cpu" is invalid: spec.containers[0].resources.requests: Invalid value: "700m": must be less than or equal to cpu limit</pre>
+<summary>4. Set both request and limit, and see if that works now.</summary>
+<pre>apiVersion: v1
+kind: Pod
+metadata:
+  name: example-no-conflict-with-limitrange-cpu
+spec:
+  containers:
+  - name: demo
+    image: registry.k8s.io/pause:2.0
+    resources:
+      requests:
+        cpu: 700m
+      limits:
+        cpu: 700m
+</pre>
+
 </details>
 
-2. Create a Pod that declares a CPU resource request of 700m, but not a limit.
-3. See if that Pod is scheduled, and see why ?
-4. Set both request and limit, and see if that works now.
