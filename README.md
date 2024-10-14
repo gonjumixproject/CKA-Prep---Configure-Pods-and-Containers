@@ -61,7 +61,16 @@ spec:
       requests:
         cpu: 700m
 </pre>
+ <pre>
+  Create a yaml file, and update the file:
+PS C:\Users\gonca> kubectl run example-conflict-with-limitrange-cpu --image=registry.k8s.io/pause:2.0 --dry-run=client -o yaml > demo.yaml
+PS C:\Users\gonca> vi .\demo.yaml
+PS C:\Users\gonca> kubectl apply -f .\demo.yaml
+The Pod "example-conflict-with-limitrange-cpu" is invalid: spec.containers[0].resources.requests: Invalid value: "700m": must be less than or equal to cpu limit of 500m
+</pre>
+ 
 <summary>3. See if that Pod is scheduled, and see why ?</summary>
+We got the error
 <pre>Pod "example-conflict-with-limitrange-cpu" is invalid: spec.containers[0].resources.requests: Invalid value: "700m": must be less than or equal to cpu limit</pre>
 <summary>4. Set both request and limit, and see if that works now.</summary>
 <pre>apiVersion: v1
@@ -78,6 +87,19 @@ spec:
       limits:
         cpu: 700m
 </pre>
+
+This configration means that LimitRange constraints for CPU resources on containers within a namespace:
+
+Min: Minimum CPU request of 100m (0.1 CPU).
+Max: Maximum CPU limit of 1 (1 full CPU).
+Default Request: If a container doesn’t specify a CPU request, it defaults to 500m.
+Default Limit: If a container doesn’t specify a CPU limit, it defaults to 500m.
+Max Limit/Request Ratio: No specified maximum ratio, so requests can equal limits.
+
+And from a pod level this means that  a container in a pod has both a CPU limit and a CPU request set to 700m (700 millicores). This means:
+
+Requests: The container will be guaranteed 700 millicores of CPU, ensuring it has the resources it needs.
+Limits: The container cannot exceed 700 millicores of CPU. Even if more CPU is available, the container is restricted to this maximum amount.
 
 </details>
 
